@@ -2,6 +2,9 @@
    RESET BÁSICO
    Eliminamos los márgenes por defecto del navegador
    ========================================= */
+html {
+    scroll-behavior: smooth; /* <--- ESTA ES LA MAGIA */
+}
 * {
     margin: 0;
     padding: 0;
