@@ -212,3 +212,76 @@ footer {
         margin-bottom: 20px;
     }
 }
+
+/* --- ESTILOS DEL GESTOR DE TAREAS --- */
+
+/* Contenedor del input y el botón */
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Esto ayuda a que baje el botón en celulares */
+}
+
+#nueva-tarea {
+    flex: 1; /* Ocupa todo el espacio disponible */
+    padding: 12px;
+    border: 2px solid #ddd;
+}
+
+/* Estilo para la lista de tareas */
+#lista-tareas {
+    list-style: none;
+    padding: 0;
+}
+
+.tarea-item {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between; /* Separa texto de botones */
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.tarea-item:hover {
+    background-color: #f9f9f9;
+}
+
+/* Tarea completada (tachada) */
+.completada span {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* Botones de acción (Editar / Eliminar) */
+.acciones {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-accion {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: white;
+}
+
+.btn-editar {
+    background-color: #ffa000; 
+}
+
+.btn-eliminar {
+    background-color: #d32f2f; 
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    display: none; /* Oculto por defecto */
+}
