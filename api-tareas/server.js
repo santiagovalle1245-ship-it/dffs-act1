@@ -29,31 +29,29 @@ async function guardarArchivo(ruta, datos) {
     await fs.writeFile(ruta, JSON.stringify(datos, null, 2));
 }
 
-// --- EL PORTERO (MIDDLEWARE) 🛡️ ---
+// --- EL PORTERO (MIDDLEWARE) ---
 // Esta función se ejecutará ANTES de dejar pasar a las rutas protegidas
 const verificarToken = (req, res, next) => {
-    // 1. Buscamos el token en la cabecera 'Authorization'
-    const cabeceraAuth = req.headers['authorization'];
-    
+    const cabeceraAuth = req.headers['authorization'];// 1. Buscamos el token en la cabecera 'Authorization'    
     // El token suele venir como "Bearer eyJhbG..." así que quitamos "Bearer " si está
     const token = cabeceraAuth && cabeceraAuth.split(' ')[1];
 
     if (!token) {
-        return res.status(401).send('🛑 Acceso denegado: No tienes un token');
+        return res.status(401).send('Acceso denegado: No tienes un token');
     }
 
     // 2. Verificamos si el token es válido y no ha expirado
     jwt.verify(token, SECRET_KEY, (err, user) => {
         if (err) {
-            return res.status(403).send('🚫 Token inválido o expirado');
+            return res.status(403).send('Token inválido o expirado');
         }
         // Si todo está bien, guardamos los datos del usuario en la petición y dejamos pasar
         req.user = user;
-        next(); // ¡Pase usted!
+        next();
     });
 };
 
-// --- RUTAS PÚBLICAS (Cualquiera puede entrar) ---
+// --- RUTAS PÚBLICAS ---
 
 app.post('/register', async (req, res) => {
     try {
@@ -90,8 +88,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// --- RUTAS PROTEGIDAS (Solo con Token) 🔒 ---
-// Nota cómo agregamos 'verificarToken' antes de la función de la ruta
+// --- RUTAS PROTEGIDAS (Solo con Token) ---
 
 app.get('/tareas', verificarToken, async (req, res) => {
     const tareas = await leerArchivo(archivoTareas);
