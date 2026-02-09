@@ -30,7 +30,7 @@ async function guardarArchivo(ruta, datos) {
 }
 
 // --- EL PORTERO (MIDDLEWARE) ---
-// Esta función se ejecutará ANTES de dejar pasar a las rutas protegidas
+// Esta función se ejecutará antes de dejar pasar a las rutas protegidas
 const verificarToken = (req, res, next) => {
     const cabeceraAuth = req.headers['authorization'];// 1. Buscamos el token en la cabecera 'Authorization'    
     // El token suele venir como "Bearer eyJhbG..." así que quitamos "Bearer " si está
@@ -88,7 +88,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// --- RUTAS PROTEGIDAS (Solo con Token) ---
+// --- RUTAS PROTEGIDAS (Solo con el Token) ---
 
 app.get('/tareas', verificarToken, async (req, res) => {
     const tareas = await leerArchivo(archivoTareas);
