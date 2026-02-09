@@ -1,4 +1,3 @@
-
 html {
     scroll-behavior: smooth; 
 }
@@ -215,73 +214,145 @@ footer {
 
 /* --- ESTILOS DEL GESTOR DE TAREAS --- */
 
-/* Contenedor del input y el botón */
+/* Fondo de la sección un poco más limpio */
+#gestor-tareas {
+    background-color: #f4f4f4;
+    padding-bottom: 80px;
+}
+
+/* Contenedor tipo "Tarjeta" central */
+#gestor-tareas .container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+    max-width: 800px; /
+}
+
+/* Input y Botón */
 .input-group {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap; /* Esto ayuda a que baje el botón en celulares */
+    gap: 15px;
+    margin-bottom: 30px;
+    position: relative;
 }
 
 #nueva-tarea {
-    flex: 1; /* Ocupa todo el espacio disponible */
-    padding: 12px;
-    border: 2px solid #ddd;
+    flex: 1;
+    padding: 15px 20px;
+    border: 2px solid #eee;
+    border-radius: 50px; 
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
 }
 
-/* Estilo para la lista de tareas */
+#nueva-tarea:focus {
+    border-color: #b71c1c; 
+    box-shadow: 0 0 0 4px rgba(183, 28, 28, 0.1);
+}
+
+#agregar-tarea {
+    width: auto; 
+    padding: 0 30px;
+    border-radius: 50px;
+    background-color: #b71c1c;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(183, 28, 28, 0.3);
+}
+
+#agregar-tarea:hover {
+    background-color: #8e0000;
+    transform: translateY(-2px);
+}
+
+/* Lista de Tareas */
 #lista-tareas {
     list-style: none;
     padding: 0;
+    margin-top: 20px;
 }
 
 .tarea-item {
     background: #fff;
-    border-bottom: 1px solid #eee;
-    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 15px 20px;
     display: flex;
-    justify-content: space-between; /* Separa texto de botones */
+    justify-content: space-between;
     align-items: center;
-    transition: background 0.2s;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 5px solid #ccc; 
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
 }
 
+/* La tarea se "levanta" */
 .tarea-item:hover {
-    background-color: #f9f9f9;
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-left-color: #b71c1c; 
 }
 
-/* Tarea completada (tachada) */
-.completada span {
+/* Estilo del texto de la tarea */
+.tarea-item span {
+    font-size: 1.1rem;
+    cursor: pointer;
+    flex: 1; 
+    margin-right: 15px;
+}
+
+/* Tarea Completada */
+.tarea-item.completada {
+    border-left-color: #2e7d32; 
+    background-color: #f8fff8; 
+    opacity: 0.8;
+}
+
+.tarea-item.completada span {
     text-decoration: line-through;
     color: #888;
 }
 
-/* Botones de acción (Editar / Eliminar) */
+/* Botones de Acción */
 .acciones {
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 
 .btn-accion {
-    padding: 5px 10px;
+    padding: 8px 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 0.85em;
     color: white;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+
+.btn-accion:hover {
+    transform: scale(1.05);
 }
 
 .btn-editar {
-    background-color: #ffa000; 
+    background-color: #ff9800; 
 }
 
 .btn-eliminar {
-    background-color: #d32f2f; 
+    background-color: #d32f2f;
 }
 
+/* Mensaje de error */
 .error {
-    color: red;
-    font-size: 0.9em;
-    margin-top: -15px;
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
     margin-bottom: 15px;
-    display: none; /* Oculto por defecto */
+    display: none;
+    font-weight: bold;
 }
