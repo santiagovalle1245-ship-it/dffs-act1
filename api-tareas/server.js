@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs').promises;
 const path = require('path');
@@ -13,8 +14,8 @@ const archivoTareas = path.join(__dirname, 'tareas.json');
 const archivoUsuarios = path.join(__dirname, 'usuarios.json');
 
 app.use(express.json());
-
-// --- FUNCIONES AYUDANTES ---
+app.use(cors());
+// FUNCIONES AYUDANTES 
 
 async function leerArchivo(ruta) {
     try {
@@ -57,13 +58,13 @@ app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
         if (!username || !password) return res.status(400).send('Falta datos');
-        
+
         const usuarios = await leerArchivo(archivoUsuarios);
         if (usuarios.find(u => u.username === username)) return res.status(400).send('El usuario ya existe');
 
         const passwordEncriptada = await bcrypt.hash(password, 10);
         usuarios.push({ username, password: passwordEncriptada });
-        
+
         await guardarArchivo(archivoUsuarios, usuarios);
         res.status(201).send('Usuario registrado exitosamente');
     } catch (error) {
@@ -76,7 +77,7 @@ app.post('/login', async (req, res) => {
         const { username, password } = req.body;
         const usuarios = await leerArchivo(archivoUsuarios);
         const usuarioEncontrado = usuarios.find(u => u.username === username);
-        
+
         if (!usuarioEncontrado || !(await bcrypt.compare(password, usuarioEncontrado.password))) {
             return res.status(401).send('Usuario o contraseña incorrectos');
         }

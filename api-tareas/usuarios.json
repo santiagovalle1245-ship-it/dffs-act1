@@ -2,5 +2,9 @@
   {
     "username": "SantiagoDev",
     "password": "$2b$10$lNfYzz7KazJ2YF1R6f0OmefsRLXY4cVcwXfSX3a4L51PvrY8SYrdu"
+  },
+  {
+    "username": "Admin",
+    "password": "$2b$10$.enhzv3QtEiXKRiLfzj5WuT9/jGaugx07m9ao.P8WjW0rKfpvFfsW"
   }
 ]
