@@ -15,6 +15,7 @@ const archivoUsuarios = path.join(__dirname, 'usuarios.json');
 
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, '../')));
 // FUNCIONES AYUDANTES 
 
 async function leerArchivo(ruta) {
