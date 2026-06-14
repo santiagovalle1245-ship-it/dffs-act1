@@ -16,8 +16,8 @@ const archivoUsuarios = path.join(__dirname, 'usuarios.json');
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../')));
-// FUNCIONES AYUDANTES 
 
+// FUNCIONES AYUDANTES 
 async function leerArchivo(ruta) {
     try {
         const data = await fs.readFile(ruta, 'utf8');
@@ -31,29 +31,27 @@ async function guardarArchivo(ruta, datos) {
     await fs.writeFile(ruta, JSON.stringify(datos, null, 2));
 }
 
-// --- EL PORTERO (MIDDLEWARE) ---
+// EL PORTERO (MIDDLEWARE)
 // Esta función se ejecutará antes de dejar pasar a las rutas protegidas
 const verificarToken = (req, res, next) => {
-    const cabeceraAuth = req.headers['authorization'];// 1. Buscamos el token en la cabecera 'Authorization'    
-    // El token suele venir como "Bearer eyJhbG..." así que quitamos "Bearer " si está
+    const cabeceraAuth = req.headers['authorization'];//Busca el token en la cabecera 'Authorization'
     const token = cabeceraAuth && cabeceraAuth.split(' ')[1];
 
     if (!token) {
         return res.status(401).send('Acceso denegado: No tienes un token');
     }
 
-    // 2. Verificamos si el token es válido y no ha expirado
+    // Verificamos si el token es válido y no ha expirado
     jwt.verify(token, SECRET_KEY, (err, user) => {
         if (err) {
             return res.status(403).send('Token inválido o expirado');
         }
-        // Si todo está bien, guardamos los datos del usuario en la petición y dejamos pasar
         req.user = user;
         next();
     });
 };
 
-// --- RUTAS PÚBLICAS ---
+// RUTAS PÚBLICAS
 
 app.post('/register', async (req, res) => {
     try {
@@ -90,7 +88,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// --- RUTAS PROTEGIDAS (Solo con el Token) ---
+// RUTAS PROTEGIDAS (Solo con el Token)
 
 app.get('/tareas', verificarToken, async (req, res) => {
     const tareas = await leerArchivo(archivoTareas);
@@ -133,7 +131,7 @@ app.delete('/tareas/:id', verificarToken, async (req, res) => {
     }
 });
 
-// --- MANEJO DE ERRORES GLOBAL ---
+// MANEJO DE ERRORES GLOBAL 
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('¡Algo salió mal en el servidor!');

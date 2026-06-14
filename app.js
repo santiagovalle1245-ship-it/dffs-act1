@@ -1,19 +1,18 @@
-// CLASE 1: Representa una tarea 
+// Representa una tarea 
 class Tarea {
     constructor(nombre) {
         this.nombre = nombre;
-        // Tu backend espera una descripción obligatoria, le pasamos una por defecto
         this.descripcion = "Descripción pendiente";
         this.completa = false;
     }
 }
 
-// CLASE 2: Administrador conectado al Backend
+// Administrador conectado al Backend
 class GestorDeTareas {
     constructor() {
         this.tareas = [];
-        this.apiUrl = 'http://localhost:3000'; // La dirección de la cocina
-        this.token = null; // Aquí guardaremos el "Pase VIP" (JWT)
+        this.apiUrl = 'http://localhost:3000';
+        this.token = null; // Aquí se guardara el "Pase VIP" (JWT)
 
         // Al iniciar la app, primero obtenemos el pase VIP
         this.iniciarSesion();
@@ -25,14 +24,13 @@ class GestorDeTareas {
             const respuesta = await fetch(`${this.apiUrl}/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                //body: JSON.stringify({ username: 'SantiagoDev', password: '123' })
                 body: JSON.stringify({ username: 'Admin', password: '123' })
             });
 
             if (respuesta.ok) {
                 const datos = await respuesta.json();
-                this.token = datos.token; // ¡Guardamos el pase VIP!
-                this.obtenerTareasDelServidor(); // Ya podemos pedir las tareas
+                this.token = datos.token;
+                this.obtenerTareasDelServidor();
             } else {
                 console.error("Error al iniciar sesión. Revisa tu contraseña.");
             }
@@ -41,24 +39,21 @@ class GestorDeTareas {
         }
     }
 
-    // --- 2. LEER TAREAS (MÉTODO GET) ---
+    // LEER TAREAS (MÉTODO GET)
     async obtenerTareasDelServidor() {
-        // Hacemos una petición GET (por defecto) enviando nuestro token de seguridad
         const respuesta = await fetch(`${this.apiUrl}/tareas`, {
             headers: { 'Authorization': `Bearer ${this.token}` }
         });
         const tareas = await respuesta.json();
         this.tareas = tareas;
-        this.render(); // Dibujamos las tareas en la pantalla
+        this.render();
     }
 
-    // --- 3. CREAR TAREA (MÉTODO POST) ---
+    // CREAR TAREA (MÉTODO POST)
     async agregarTarea(nombre) {
         if (nombre.trim() === '') return alert("Por favor escribe una tarea.");
 
         const nuevaTarea = new Tarea(nombre);
-
-        // El mesero lleva la nueva tarea a la base de datos
         await fetch(`${this.apiUrl}/tareas`, {
             method: 'POST',
             headers: {
@@ -68,10 +63,10 @@ class GestorDeTareas {
             body: JSON.stringify(nuevaTarea)
         });
 
-        this.obtenerTareasDelServidor(); // Pedimos la lista actualizada
+        this.obtenerTareasDelServidor(); //la lista actualizada
     }
 
-    // --- 4. ELIMINAR TAREA (MÉTODO DELETE) ---
+    // ELIMINAR TAREA (MÉTODO DELETE)
     async eliminarTarea(id) {
         await fetch(`${this.apiUrl}/tareas/${id}`, {
             method: 'DELETE',
@@ -80,7 +75,7 @@ class GestorDeTareas {
         this.obtenerTareasDelServidor();
     }
 
-    // --- 5. EDITAR TAREA (MÉTODO PUT) ---
+    // EDITAR TAREA (MÉTODO PUT) 
     async editarTarea(id) {
         const tarea = this.tareas.find(t => t.id === id);
         if (!tarea) return;
@@ -101,7 +96,7 @@ class GestorDeTareas {
         }
     }
 
-    // --- 6. COMPLETAR TAREA (MÉTODO PUT) ---
+    // COMPLETAR TAREA (MÉTODO PUT)
     async toggleTarea(id) {
         const tarea = this.tareas.find(t => t.id === id);
         if (!tarea) return;
